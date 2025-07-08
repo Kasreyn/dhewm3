@@ -152,7 +152,7 @@ ID_INLINE int PC_NameHash( const char *name ) {
 	int hash, i;
 
 	hash = 0;
-	for ( i = 0; name[i] != '\0'; i++ ) {
+	for ( i = 0; name[i] != 0; i++ ) {
 		hash += name[i] * (119 + i);
 	}
 	hash = (hash ^ (hash >> 10) ^ (hash >> 20)) & (DEFINEHASHSIZE-1);
@@ -709,9 +709,9 @@ int idParser::ExpandBuiltinDefine( idToken *deftoken, define_t *define, idToken 
 			curtime = ctime(&t);
 			(*token) = "\"";
 			token->Append( curtime+4 );
-			token[7] = '\0';
+			token[7] = 0;
 			token->Append( curtime+20 );
-			token[10] = '\0';
+			token[10] = 0;
 			token->Append( "\"" );
 			free(curtime);
 			token->type = TT_STRING;
@@ -728,7 +728,7 @@ int idParser::ExpandBuiltinDefine( idToken *deftoken, define_t *define, idToken 
 			curtime = ctime(&t);
 			(*token) = "\"";
 			token->Append( curtime+11 );
-			token[8] = '\0';
+			token[8] = 0;
 			token->Append( "\"" );
 			free(curtime);
 			token->type = TT_STRING;
@@ -2341,7 +2341,7 @@ int idParser::ReadToken( idToken *token ) {
 			return false;
 		}
 		// check for precompiler directives
-		if ( token->type == TT_PUNCTUATION && (*token)[0] == '#' && (*token)[1] == '\0' ) {
+		if ( token->type == TT_PUNCTUATION && (*token)[0] == '#' && (*token)[1] == 0 ) {
 			// read the precompiler directive
 			if ( !idParser::ReadDirective() ) {
 				return false;
@@ -2367,7 +2367,7 @@ int idParser::ReadToken( idToken *token ) {
 		//
 		if ( !(idParser::scriptstack->GetFlags() & LEXFL_NODOLLARPRECOMPILE) ) {
 			// check for special precompiler directives
-			if ( token->type == TT_PUNCTUATION && (*token)[0] == '$' && (*token)[1] == '\0' ) {
+			if ( token->type == TT_PUNCTUATION && (*token)[0] == '$' && (*token)[1] == 0 ) {
 				// read the precompiler directive
 				if ( idParser::ReadDollarDirective() ) {
 					continue;
